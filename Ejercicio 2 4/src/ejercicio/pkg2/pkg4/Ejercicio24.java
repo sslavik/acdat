@@ -43,7 +43,7 @@ public class Ejercicio24 {
             String linea = reader.readLine();
             
             while(linea != null){
-                try(BufferedWriter writer = new BufferedWriter(new FileOutputStream("HOla que tal"));){
+                try(BufferedWriter writer = new BufferedWriter(("HOla que tal"));){
                     
                 }
                 linea = reader.readLine();
