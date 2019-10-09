@@ -18,8 +18,10 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.stream.FileImageInputStream;
 
 
 /**
@@ -38,6 +40,7 @@ public class CambiarAE {
             System.exit(0);
         }
         Charset encoding = Charset.forName("UTF-8");
+        
         try {
             for (String fileName : args) {
                 File file = new File(fileName);
@@ -86,9 +89,25 @@ public class CambiarAE {
      * @throws IOException 
      */
     private static void escribirArchivo(String contenido, File file, Charset codif) throws FileNotFoundException, IOException{
-        try(OutputStream os = new FileOutputStream(file); Writer w = new OutputStreamWriter(os, codif);){
-            System.out.print(file.getAbsolutePath());
+        try(OutputStream os = new FileOutputStream(file);
+            Writer w = new OutputStreamWriter(os, StandardCharsets.UTF_16);){
+            System.out.println(file.getAbsolutePath());
+            
             w.write(contenido);
+            
+        }
+        
+        try (InputStream in = new FileInputStream(file); 
+             InputStreamReader r = new InputStreamReader(in);){
+            System.out.println(r.getEncoding());
+            Process p = Runtime.getRuntime().exec("file -i " + file.getAbsolutePath());
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+            
         }
     }
     
