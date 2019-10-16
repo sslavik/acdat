@@ -51,7 +51,7 @@ public class FicheroAccesoAleatorio {
         FicheroAleatorio fa = new FicheroAleatorio(f);
         fa.insertar(3, "Pepito");
         fa.insertar(1, "Anita");
-        fa.insertar(5, "áAnita");// Meter acentos o caracteres especiales no devuelve ERROR
+        fa.insertar(5, "áAnitañ");// Meter acentos o caracteres especiales no devuelve ERROR
         // Debido a que en el RandomAccessFile le digo que lo esciba en UTF-8
         
         System.out.println(fa.leer(5)); // PODEMOS LEER DE CUALQUIER POSICIÓN
