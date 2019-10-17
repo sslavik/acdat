@@ -11,6 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.RandomAccess;
 
+/**
+ * 
+ * @author Vyacheslav Shylyayev
+ */
+
 public class FicheroAccesoAleatorioEmpleados {
 
     private final File f;
@@ -54,17 +59,78 @@ public class FicheroAccesoAleatorioEmpleados {
         }
     }
     
-    public Map<String,Integer> obtenerRegistro(int pos) throws FileNotFoundException, IOException{
+    public String obtenerRegistro(int pos) throws FileNotFoundException, IOException{
         
         try (RandomAccessFile raf = new RandomAccessFile(f, "r");){
             byte[] b = new byte[(int)longReg];
             raf.seek((int)(pos * longReg));
             raf.read(b);
             
-            System.out.println(new String(b));
+            return new String(b).substring(0,6) + " " + new String(b).substring(6,15) + " " + new String(b).substring(15,47);
         }
         
-        return null;
+    }
+    
+    public String obtenerValorCampo(long pos, String nomCampo) throws FileNotFoundException, IOException{
+        
+        try(RandomAccessFile raf = new RandomAccessFile(f, "r")){
+            
+            long longCampo = 0;
+            int offsetCampo = 0;
+            
+            for (Pair campo : campos){
+                if(campo.getKey() == nomCampo){
+                    longCampo = (Integer)campo.getValue();
+                    break;
+                }
+                else {
+                    offsetCampo += (Integer)campo.getValue();
+                }
+            }
+                raf.seek(pos * longReg + (long)offsetCampo);
+                byte[] b = new byte[(int)longCampo];
+                raf.read(b);
+                return new String(b);
+            
+        }
+        
+    }
+    
+    public String obtenerValorCampo(String numEmpleado, String nomCampo) throws FileNotFoundException, IOException{
+        
+        long longId = 0;
+        long longCampo = 0;
+        int offsetCampo = 0;
+        
+        for (Pair campo : campos){
+                if(campo.getKey() == "NUM_EMP"){
+                    longId = (Integer)campo.getValue();
+                    offsetCampo += (Integer)campo.getValue();
+                } else if (campo.getKey() == nomCampo){
+                    longCampo = (Integer)campo.getValue();
+                    break;
+                } else {
+                    offsetCampo += (Integer)campo.getValue();
+                }
+            }
+        
+        try (RandomAccessFile raf = new RandomAccessFile(f, "r")){
+            byte[] num_Emp = new byte[(int)longId];
+            byte[] buscado = new byte[(int)longCampo];
+            int pos = 0;
+            while (true) {
+                raf.seek(pos * longReg);
+                raf.read(num_Emp);
+                String tmp = new String(num_Emp);
+                if(tmp.matches(numEmpleado)){
+                    raf.seek(pos * longReg + offsetCampo);
+                    raf.read(buscado);
+                    break;
+                }
+                pos++;
+            }
+            return new String(buscado);
+        }
     }
 
     public static void main(String[] args) {
@@ -96,7 +162,11 @@ public class FicheroAccesoAleatorioEmpleados {
             reg.put("NUM_EMP", "44126");
             faa.insertar(reg, 1);
 //      faa.insertar(reg,25);  // Probarlo, interesante
-            faa.obtenerRegistro(2000);
+            System.out.println(faa.obtenerRegistro(2));
+            
+            System.out.println(faa.obtenerValorCampo(1, "DNI"));
+            
+            System.out.println(faa.obtenerValorCampo("44126", "NOMBRE"));
         } catch (IOException e) {
             System.err.println("Error de E/S: " + e.getMessage());
         } catch (Exception e) {
