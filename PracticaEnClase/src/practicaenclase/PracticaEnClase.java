@@ -54,7 +54,9 @@ public class PracticaEnClase {
     /**
      * Reemplaza en el fichero de texto las ocurrecias de una palabra
      */
-
+    
+    
+    
     /**
      * Leer línea a línea y generar fichero de texto, termina de leer con linea vacia
      * 
