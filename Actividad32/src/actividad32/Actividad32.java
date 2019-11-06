@@ -22,6 +22,23 @@ public class Actividad32 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/ad?useSSL=false", "ad", "123");
+                Statement s = c.createStatement();
+                ResultSet rs = s.executeQuery("SELECT * FROM CLIENTES")){
+            System.out.println("Conexión realizada");
+            int i = 0;
+            while (rs.next()) {
+                
+                System.err.println("_________ CLIENTE "+ i++ + "_________");
+                System.out.println("DNI : " + rs.getString("DNI"));
+                System.out.println("APELLIDOS : " + rs.getString("APELLIDOS"));
+                System.out.println("CP : " + rs.getInt("CP")); // EN CASO DE QUE DEVUELVA NULL SERÁ 0
+                
+            }
+            
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
     }
     
 }
