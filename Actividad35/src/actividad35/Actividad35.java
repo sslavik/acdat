@@ -24,9 +24,7 @@ public class Actividad35 {
     public static void main(String[] args) {
         // TODO code application logic here
         // TODO code application logic here
-        try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/ad?useSSL=false", "ad", "123");
-                
-                ){
+        try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/ad?useSSL=false", "ad", "123");){
             NamedParameterStatement s = new NamedParameterStatement(c, "SELECT * FROM CLIENTES1 WHERE DNI = :dni AND APELLIDOS = :apellidos");
             System.out.println("Conexión realizada");
             int posicion = 0;
