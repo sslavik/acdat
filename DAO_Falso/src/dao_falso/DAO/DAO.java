@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Vyacheslav Shylyayev
  */
-public class DAOCliente {
+public class DAO {
     
     String host = "remotemysql.com";
     String database = "np5tn1dien";
@@ -29,15 +29,15 @@ public class DAOCliente {
     
     String url = String.format("jdbc:mysql://%s:%s/%s%s",host,port,database,paramsAdd);
 
-    public DAOCliente() {
+    public DAO() {
         
         try {
             this.c = DriverManager.getConnection(url, user, passwd);
         } catch (SQLException ex) {
-            Logger.getLogger(DAOCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public int save(Cliente cliente){
+    public int insertarCliente(Cliente cliente){
 
         try {
             PreparedStatement ps = c.prepareStatement("insert into cliente (dni, nom_cliente) values(?,?) on duplicate key update nom_cliente = ?");
@@ -47,7 +47,7 @@ public class DAOCliente {
             ps.setString(++i, cliente.getNom_cliente());
             return ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
         
@@ -68,13 +68,14 @@ public class DAOCliente {
         }
     }
     
+    
     public boolean closeConnection(){
         try {
             if(!c.equals(null))
                 c.close();
             return c.isClosed();
         } catch (SQLException ex) {
-            Logger.getLogger(DAOCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

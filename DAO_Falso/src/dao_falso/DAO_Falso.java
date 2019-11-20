@@ -5,7 +5,7 @@
  */
 package dao_falso;
 
-import dao_falso.DAO.DAOCliente;
+import dao_falso.DAO.DAO;
 import dao_falso.models.Cliente;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ public class DAO_Falso {
     public static void main(String[] args) {
         // TODO code application logic here
         Cliente c = new Cliente("asd223", "Marta");
-        DAOCliente D_cliete = new DAOCliente();
-        System.out.println("Se han introducido : " + D_cliete.save(c));
+        DAO D_cliete = new DAO();
+        System.out.println("Se han introducido : " + D_cliete.insertarCliente(c));
         System.out.println("CLIENTES");
         List<String> clientes = D_cliete.obtenerClientes();
         
