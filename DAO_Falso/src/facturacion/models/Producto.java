@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao_falso.models;
+package facturacion.models;
 
 /**
  *
@@ -12,8 +12,17 @@ package dao_falso.models;
 public class Producto {
     
     private int id_producto;
+    private String ean;
+    private String nom_producto;
 
-    public int getId_producto() {
+    public Producto(String ean, String nom_producto) {
+        this.ean = ean;
+        this.nom_producto = nom_producto;
+    }
+    
+    
+    
+     public int getId_producto() {
         return id_producto;
     }
 
@@ -36,7 +45,5 @@ public class Producto {
     public void setNom_producto(String nom_producto) {
         this.nom_producto = nom_producto;
     }
-    private String ean;
-    private String nom_producto;
     
 }

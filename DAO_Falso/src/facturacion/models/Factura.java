@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao_falso.models;
+package facturacion.models;
 
-import java.util.Date;
-
+import java.sql.*;
+        
 /**
  *
  * @author usuario
@@ -16,6 +16,14 @@ public class Factura {
     private int num_factura;
     private int id_cliente;
     private Date fecha_factura;
+    
+    // CONSTRUCTOR
+
+    public Factura(int id_cliente, Date fecha_factura) {
+        this.id_cliente = id_cliente;
+        this.fecha_factura = fecha_factura;
+    }
+    
 
     public int getNum_factura() {
         return num_factura;

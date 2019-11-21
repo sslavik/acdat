@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao_falso.models;
+package facturacion.models;
 
 /**
  *
@@ -18,6 +18,11 @@ public class Cliente {
     public Cliente(String dni, String nom_cliente) {
         this.dni = dni;
         this.nom_cliente = nom_cliente;
+    }
+    
+    public Cliente(String dni) {
+        this.dni = dni;
+        this.nom_cliente = "";
     }
 
     public String getDni() {

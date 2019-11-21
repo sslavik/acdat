@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao_falso.DAO;
+package facturacion.DAO;
 
+import facturacion.models.Cliente;
 import com.mysql.jdbc.MySQLConnection;
-import dao_falso.models.*;
+import facturacion.models.Factura;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * @author Vyacheslav Shylyayev
  */
 public class DAO {
-    
+    // CAMPOS
     String host = "remotemysql.com";
     String database = "np5tn1dien";
     String passwd = "v39eXDt1Z6";
@@ -80,5 +81,43 @@ public class DAO {
         }
     }
     
+    public int getIdCliente(Cliente cliente) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("select id_cliente from cliente where dni = ?;");
+        int i = 0;
+        ps.setString(++i, cliente.getDni());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+                
+        return rs.getInt("id_cliente");
+    }
+    
+    public int insertarFactura(Factura factura) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("insert into factura (id_cliente, fecha_factura) values (?,?);");
+        
+        int i = 0;
+        ps.setInt(++i, factura.getId_cliente());
+        ps.setDate(++i, factura.getFecha_factura());
+        
+        return ps.executeUpdate();
+    }
+    
+    public int insertarFacturas(List<Factura> facturas) throws SQLException{
+        
+        int rowsAffected = 0;
+        
+        for(Factura f : facturas){
+            PreparedStatement ps = c.prepareStatement("insert into factura (id_cliente, fecha_factura) values (?,?);");
+            
+            int i = 0;
+            ps.setInt(++i, f.getId_cliente());
+            ps.setDate(++i, f.getFecha_factura());
+            
+            rowsAffected += ps.executeUpdate();
+        }
+        
+        return rowsAffected;
+    }
     
 }
