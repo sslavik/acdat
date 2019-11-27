@@ -15,6 +15,12 @@ public class Linea_Factura {
     private int id_producto;
     private int cantidad;
 
+    public Linea_Factura(Factura factura, int num_linea_factura,Producto producto, int cantidad) {
+        this.num_factura = factura.getNum_factura()
+        this.num_linea_factura = num_linea_factura;
+        this.cantidad = cantidad;
+    }
+    
     public int getNum_factura() {
         return num_factura;
     }

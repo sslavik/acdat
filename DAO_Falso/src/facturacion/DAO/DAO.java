@@ -8,6 +8,8 @@ package facturacion.DAO;
 import facturacion.models.Cliente;
 import com.mysql.jdbc.MySQLConnection;
 import facturacion.models.Factura;
+import facturacion.models.Linea_Factura;
+import facturacion.models.Producto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,19 @@ public class DAO {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public boolean closeConnection(){
+        try {
+            if(!c.equals(null))
+                c.close();
+            return c.isClosed();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    // _______________________________________________ CLIENTES ____________________________________________
+
     public int insertarCliente(Cliente cliente){
 
         try {
@@ -70,16 +85,7 @@ public class DAO {
     }
     
     
-    public boolean closeConnection(){
-        try {
-            if(!c.equals(null))
-                c.close();
-            return c.isClosed();
-        } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
+    
     
     public int getIdCliente(Cliente cliente) throws SQLException{
         
@@ -91,7 +97,7 @@ public class DAO {
                 
         return rs.getInt("id_cliente");
     }
-    
+    // _______________________________________________ FACTURAS ____________________________________________
     public int insertarFactura(Factura factura) throws SQLException{
         
         PreparedStatement ps = c.prepareStatement("insert into factura (id_cliente, fecha_factura) values (?,?);");
@@ -119,5 +125,36 @@ public class DAO {
         
         return rowsAffected;
     }
-    
+    // _______________________________________________ PRODUCTOS _________________________________________________
+    public int insertarProducto(Producto producto) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("insert into producto (ean, nom_producto) values (?,?);");
+        
+        int i = 0;
+        ps.setString(++i, producto.getEan());
+        ps.setString(++i, producto.getNom_producto());
+        
+        return ps.executeUpdate();
+    }
+    public List<Producto> obtenerProductos() throws SQLException{
+        List<Producto> productos = new ArrayList<Producto>();
+        
+        PreparedStatement ps = c.prepareStatement("select * from producto");
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            Producto tmp = new Producto(rs.getString("ean"), rs.getString("nom_producto"));
+            productos.add(tmp);
+        }
+        
+        return productos;
+    }
+    // _______________________________________________ LINEA_FACTURA _________________________________________________
+    public int insertarLineaFactura(Linea_Factura linea_Factura) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("insert into factura (id_cliente, fecha_factura) values (?,?);");
+        
+        int i = 0;
+        
+        return ps.executeUpdate();
+    }
 }
