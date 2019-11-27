@@ -6,7 +6,6 @@
 package facturacion.DAO;
 
 import facturacion.models.Cliente;
-import com.mysql.jdbc.MySQLConnection;
 import facturacion.models.Factura;
 import facturacion.models.Linea_Factura;
 import facturacion.models.Producto;
@@ -125,6 +124,20 @@ public class DAO {
         
         return rowsAffected;
     }
+    public Factura obtenerFactura(int num_factura) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("select * from factura where num_factura = ?");
+        
+        int i = 0;
+        
+        ps.setInt(++i, num_factura);
+        
+        ResultSet rs = ps.executeQuery();
+        
+        rs.next();
+        
+        return new Factura(rs.getInt("id_cliente"),rs.getDate("fecha_factura"));
+    }
     // _______________________________________________ PRODUCTOS _________________________________________________
     public int insertarProducto(Producto producto) throws SQLException{
         
@@ -148,13 +161,67 @@ public class DAO {
         
         return productos;
     }
+    public Producto obtenerProducto(int id_producto) throws SQLException{
+        
+        PreparedStatement ps = c.prepareStatement("select * from producto");
+        
+        ResultSet rs = ps.executeQuery();
+        
+        rs.next();
+        
+        return new Producto(rs.getString("ean"),rs.getString("nom_producto"));
+    }
     // _______________________________________________ LINEA_FACTURA _________________________________________________
     public int insertarLineaFactura(Linea_Factura linea_Factura) throws SQLException{
         
-        PreparedStatement ps = c.prepareStatement("insert into factura (id_cliente, fecha_factura) values (?,?);");
+        PreparedStatement ps = c.prepareStatement("insert into linea_factura (num_factura, num_linea_factura, id_producto, cantidad) values (?,?,?,?);");
         
         int i = 0;
         
+        ps.setInt(++i, linea_Factura.getNum_factura());
+        ps.setInt(++i, linea_Factura.getNum_linea_factura());
+        ps.setInt(++i, linea_Factura.getId_producto());
+        ps.setInt(++i, linea_Factura.getCantidad());
+        
+        
         return ps.executeUpdate();
+    }
+    
+    public int insertarLineaFacturas(List<Linea_Factura> linea_Facturas) throws SQLException{
+        
+        int rowsAffected = 0;
+        
+        for(Linea_Factura lf : linea_Facturas){
+            PreparedStatement ps = c.prepareStatement("insert into linea_factura (num_factura, num_linea_factura, id_producto, cantidad) values (?,?,?,?);");
+        
+            int i = 0;
+
+            ps.setInt(++i, lf.getNum_factura());
+            ps.setInt(++i, lf.getNum_linea_factura());
+            ps.setInt(++i, lf.getId_producto());
+            ps.setInt(++i, lf.getCantidad());
+            
+            rowsAffected += ps.executeUpdate();
+        }
+        
+        return rowsAffected;
+    }
+    
+    public List<Linea_Factura> obtenerLinea_Facturas() throws SQLException{
+        List<Linea_Factura> lineas = new ArrayList<Linea_Factura>();
+        
+        PreparedStatement ps = c.prepareStatement("select * from linea_factura");
+        
+        ResultSet rs = ps.executeQuery();
+        
+        while(rs.next()){
+            Linea_Factura tmp = new Linea_Factura(
+                    obtenerFactura(rs.getInt("num_factura")),
+                    rs.getInt("num_linea_factura"),
+                    obtenerProducto(rs.getInt("id_producto")),
+                    rs.getInt("cantidad"));
+        }
+        
+        return lineas;
     }
 }
