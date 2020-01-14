@@ -81,6 +81,7 @@ public class EFT_AD_EJ1 {
                         if(posicion < limite){
                             ps.setInt(++i, posicion++);
                             ps.setInt(++i, posicion);
+                            executeQueryCliente(ps, posicion);
                         }
                         else {
                             System.out.println("No existen más registros");
@@ -90,6 +91,8 @@ public class EFT_AD_EJ1 {
                         if(posicion > 1){
                             ps.setInt(++i, posicion -= 2); 
                             ps.setInt(++i, ++posicion); 
+                            executeQueryCliente(ps, posicion);
+
                         } else {
                             System.out.println("No existen más registros");
                         }
@@ -98,17 +101,17 @@ public class EFT_AD_EJ1 {
                         break;
                     default :
                         int salto = Integer.parseInt(opcion);
+                        posicion = salto;
+                        if(posicion > 0 && posicion < limite){
+                            ps.setInt(++i, posicion - 1);
+                            ps.setInt(++i, posicion);
+                            executeQueryCliente(ps, posicion);
+                        } else {
+                            System.out.println("Esa posición NO es accesible");
+                        }
                         break;
                     }
-                    ResultSet rs = ps.executeQuery();
-                        
-                        rs.next();
-                        
-                        String dni = rs.getString("DNI");                        
-                        String ape = rs.getString("APELLIDOS");
-                        String cp = rs.getString("CP");
-                        
-                        System.out.println("Fila " + posicion + " | DNI : " + dni + " APELLIDOS : "+ ape + " CP : " + cp );
+                    
                 }
                 catch (Exception e) {
                     System.err.println(e.getMessage());
@@ -119,7 +122,17 @@ public class EFT_AD_EJ1 {
             } while(opcion.charAt(0) != '.');
                 
         }
-        
+    }
+    static void executeQueryCliente(PreparedStatement ps, int posicion) throws SQLException{
+        ResultSet rs = ps.executeQuery();
+                        
+        rs.next();
+
+        String dni = rs.getString("DNI");                        
+        String ape = rs.getString("APELLIDOS");
+        String cp = rs.getString("CP");
+
+        System.out.println("Fila " + posicion + " | DNI : " + dni + " APELLIDOS : "+ ape + " CP : " + cp );
     }
     
 }
