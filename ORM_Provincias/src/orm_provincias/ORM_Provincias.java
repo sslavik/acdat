@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import ORM.*;
 
 
 /**
@@ -22,19 +23,45 @@ public class ORM_Provincias {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        // LECTURA COMPARTIDA DE ARCHIVOS
+        String linea;
+        String[] campos;
         
-        
-        Session s = NewHibernateUtil.getSessionFactory().openSession();
-        try {
+        try(Session s = HibernateUtil.getSessionFactory().openSession()){
             Transaction t = null;
             
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("localidades.csv"))))
-            
-            s.close();
-            
-        } catch (Exception e){
-            
-        }
+            try {
+                t = s.beginTransaction();
+
+                try (BufferedReader comunidadesCsv = new BufferedReader(new InputStreamReader(new FileInputStream("comunidades.csv")));
+                        BufferedReader localidadesCsv = new BufferedReader(new InputStreamReader(new FileInputStream("localidades.csv")));
+                        BufferedReader provinciasCsv = new BufferedReader(new InputStreamReader(new FileInputStream("provincias.csv")))){
+                    // IDS
+                    int idComunidad = 1;
+                    int idLocalidad = 1;
+                    while((linea = comunidadesCsv.readLine())!=null){
+                        Comunidad comunidad = new Comunidad(idComunidad++, linea);
+                        System.out.printf("Comunidad : %d %s \n",comunidad.getIdCom(), comunidad.getNomCom());
+                        s.saveOrUpdate(comunidad);
+                    }
+                    while((linea = provinciasCsv.readLine())!=null){
+                        campos = linea.split("[,\"]");
+                        if(campos.length >= 3){
+                            Provincia provincia = new Provincia(Integer.parseInt(campos[1]),s.get(Comunidad.class, Integer.parseInt(campos[0])), campos[2]);
+                            System.out.printf("Provincia : %d %s %s \n",provincia.getIdProv(), provincia.getComunidad().getNomCom(), provincia.getNomProv());
+                            s.saveOrUpdate(provincia);
+                        }
+                    }
+
+                }
+
+                t.commit();
+            } catch (Exception e){
+                e.printStackTrace();
+                System.err.println("ERROR : " + e.getMessage());
+                t.rollback();
+             }
+        } 
     }
     
 }
