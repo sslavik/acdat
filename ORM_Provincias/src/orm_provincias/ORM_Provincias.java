@@ -52,6 +52,12 @@ public class ORM_Provincias {
                             s.saveOrUpdate(provincia);
                         }
                     }
+                    while((linea = localidadesCsv.readLine())!=null){
+                        campos = linea.split("[,\"]");
+                        Localidad localidad = new Localidad(idLocalidad++,s.get(Provincia.class, Integer.parseInt(campos[0])),campos[1]);
+                        System.out.printf("Localidad : %d %s %s \n",localidad.getIdLoc(), localidad.getProvincia().getNomProv(), localidad.getNomLocalidad());
+                        s.saveOrUpdate(localidad);
+                    }
 
                 }
 
