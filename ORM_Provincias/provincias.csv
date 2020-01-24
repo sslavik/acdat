@@ -10,8 +10,8 @@
 2,44,Teruel
 2,50,Zaragoza
 3,33,Asturias
-4,7,"Balears, Illes"
-5,35,"Palmas, Las"
+4,7,Illes Balears
+5,35,Las Palmas
 5,38,Santa Cruz de Tenerife
 6,39,Cantabria
 7,5,Ávila
@@ -37,7 +37,7 @@
 10,46,Valencia/València
 11,6,Badajoz
 11,10,Cáceres
-12,15,"Coruña, A"
+12,15,A Coruña
 12,27,Lugo
 12,32,Ourense
 12,36,Pontevedra
@@ -47,6 +47,6 @@
 16,1,Araba/Álava
 16,48,Bizkaia
 16,20,Gipuzkoa
-17,26,"Rioja, La"
+17,26,La Rioja
 18,51,Ceuta
 19,52,Melilla

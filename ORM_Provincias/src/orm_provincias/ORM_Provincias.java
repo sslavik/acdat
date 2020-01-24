@@ -11,6 +11,11 @@ import java.io.InputStreamReader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ORM.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,27 +45,33 @@ public class ORM_Provincias {
                     int idComunidad = 1;
                     int idLocalidad = 1;
                     while((linea = comunidadesCsv.readLine())!=null){
-                        Comunidad comunidad = new Comunidad(idComunidad++, linea);
+                        Comunidad comunidad = new Comunidad(linea);
                         System.out.printf("Comunidad : %d %s \n",comunidad.getIdCom(), comunidad.getNomCom());
                         s.saveOrUpdate(comunidad);
                     }
                     while((linea = provinciasCsv.readLine())!=null){
-                        campos = linea.split("[,\"]");
+                        campos = linea.split("[,]");
                         if(campos.length >= 3){
-                            Provincia provincia = new Provincia(Integer.parseInt(campos[1]),s.get(Comunidad.class, Integer.parseInt(campos[0])), campos[2]);
+                            Provincia provincia = new Provincia(Integer.parseInt(campos[1]),
+                                    s.get(Comunidad.class, Integer.parseInt(campos[0])), 
+                                    campos[2]);
+                            System.out.println(s.get(Comunidad.class, Integer.parseInt(campos[0])).toString());
                             System.out.printf("Provincia : %d %s %s \n",provincia.getIdProv(), provincia.getComunidad().getNomCom(), provincia.getNomProv());
                             s.saveOrUpdate(provincia);
                         }
                     }
                     while((linea = localidadesCsv.readLine())!=null){
-                        campos = linea.split("[,\"]");
-                        Localidad localidad = new Localidad(idLocalidad++,s.get(Provincia.class, Integer.parseInt(campos[0])),campos[1]);
-                        System.out.printf("Localidad : %d %s %s \n",localidad.getIdLoc(), localidad.getProvincia().getNomProv(), localidad.getNomLocalidad());
-                        s.saveOrUpdate(localidad);
+                        campos = linea.split("[,]");
+                        
+                        if(campos.length >=2){
+                            Localidad localidad = new Localidad(s.get(Provincia.class, Integer.parseInt(campos[0])),campos[1]);
+                            System.out.printf("Localidad : %d %s %s \n",localidad.getIdLoc(), localidad.getProvincia().getNomProv(), localidad.getNomLocalidad());
+                            s.saveOrUpdate(localidad);
+                        }
                     }
 
                 }
-
+                 System.out.println("ESPERANDO");
                 t.commit();
             } catch (Exception e){
                 e.printStackTrace();
