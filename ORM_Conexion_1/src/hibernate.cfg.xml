@@ -43,9 +43,9 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://remotemysql.com:3306/Xy2tHnTzxO?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">Xy2tHnTzxO</property>
-    <property name="hibernate.connection.password">V9A9Vu0Lso</property>
+    <property name="hibernate.connection.url">jdbc:mysql://remotemysql.com:3306/sky5VpUuZW?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">sky5VpUuZW</property>
+    <property name="hibernate.connection.password">Yl7UniduQy</property>
     <mapping resource="ORM/Departamento.hbm.xml"/>
     <mapping resource="ORM/ProyectoSede.hbm.xml"/>
     <mapping resource="ORM/EmpleadoDatosProf.hbm.xml"/>

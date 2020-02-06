@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11 dic. 2019 12:38:49 by Hibernate Tools 4.3.1 -->
+<!-- Generated 6 feb. 2020 12:38:26 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="ORM.Departamento" table="departamento" catalog="Xy2tHnTzxO" optimistic-lock="version">
-        <id name="idDepto" type="int">
+    <class name="ORM.Departamento" table="departamento" catalog="sky5VpUuZW" optimistic-lock="version">
+        <id name="idDepto" type="java.lang.Integer">
             <column name="id_depto" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="sede" class="ORM.Sede" fetch="select">
             <column name="id_sede" not-null="true" />

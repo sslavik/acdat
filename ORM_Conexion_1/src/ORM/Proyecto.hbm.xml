@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11 dic. 2019 12:38:49 by Hibernate Tools 4.3.1 -->
+<!-- Generated 6 feb. 2020 12:38:26 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="ORM.Proyecto" table="proyecto" catalog="Xy2tHnTzxO" optimistic-lock="version">
+    <class name="ORM.Proyecto" table="proyecto" catalog="sky5VpUuZW" optimistic-lock="version">
         <id name="idProy" type="int">
             <column name="id_proy" />
             <generator class="assigned" />
