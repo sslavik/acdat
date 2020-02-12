@@ -3,22 +3,21 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 6 feb. 2020 13:29:03 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="ORM.Empleado" table="empleado" catalog="orm_empleado" discriminator-value="no">
+    <class name="ORM.Empleado" table="empleado" catalog="orm_empleado">
         <id name="dni" type="string">
             <column name="dni" length="10" />
             <generator class="assigned" />
         </id>
         
-        <discriminator column="tipo" type="string" length="2"/>
-        
         <property name="nomEmp" type="string">
             <column name="nom_emp" length="100" />
         </property>
         
-        <subclass name="ORM.EmpPlantilla" discriminator-value="si">
+        <joined-subclass name="ORM.EmpPlantilla" table="emp_plantilla">
+            <key column="dni"/>
             <property name="numEmp" type="integer">
                 <column name="num_emp"/>
             </property>
-        </subclass> 
+        </joined-subclass> 
     </class>
 </hibernate-mapping>

@@ -14,8 +14,8 @@ public class EmpPlantilla extends Empleado implements Serializable{
 
     private int numEmp;
 
-    public EmpPlantilla(String dni, String nombre) {
-        super(dni, nombre);
+    public EmpPlantilla() {
+        super("DNI", "NOMBRE");
     }
 
     public Integer getNumEmp() {

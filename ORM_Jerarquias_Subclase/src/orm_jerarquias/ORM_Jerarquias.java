@@ -27,7 +27,7 @@ public class ORM_Jerarquias {
             try {
                 Empleado emp = new Empleado("PILOTES", "MEENCANTAN");
                 s.saveOrUpdate(emp);
-                EmpPlantilla empPlantilla = new EmpPlantilla("Achis", "Nombre");
+                EmpPlantilla empPlantilla = new EmpPlantilla();
                 s.saveOrUpdate(empPlantilla);
                 t.commit();
             } catch (Exception e){
