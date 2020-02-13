@@ -21,7 +21,7 @@ create table if not exists empleado (
 );
 
 create table if not exists emp_plantilla (
-    num_emp integer primary key auto_increment,
+    num_emp integer primary key auto_increment
 );
 
 

@@ -43,7 +43,7 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://192.168.1.134:3306/orm_empleado</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/orm_empleado</property>
     <property name="hibernate.connection.username">acdat</property>
     <property name="hibernate.connection.password">1234</property>
     <mapping resource="ORM/Empleado.hbm.xml"/>
